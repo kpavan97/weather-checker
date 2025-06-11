@@ -88,15 +88,9 @@ st.markdown("""
 st.title("🌤️ Weather Checker")
 st.markdown("Check current weather conditions for any city, town or village in India")
 
-indian_places = sorted([
-    "Hyderabad", "Visakhapatnam", "Warangal", "Sattenapalle",
-    "Bhimavaram", "Tirupati", "Amalapuram", "Eluru", "Nellore",
-    "Tadepalligudem", "Ongole", "Gudur", "Kodad", "Palamaner",
-    "Kakinada", "Karimnagar", "Mancherial", "Yellandu", "Rajahmundry",
-    "Anantapur", "Kadapa", "Tenali", "Machilipatnam"
-])
-
-city = st.selectbox("Select a place in India", indian_places)
+# Text input instead of dropdown
+city = st.text_input("Enter any place name in India (e.g., Hyderabad, Tirupati, Amalapuram)")
+city = city.strip().title()
 
 # Get API key from Streamlit secrets
 API_KEY = st.secrets["API_KEY"]
@@ -128,7 +122,6 @@ if st.button("Get Weather"):
                 humidity = weather_data['main']['humidity']
                 wind_speed = weather_data['wind']['speed']
                 weather_desc = weather_data['weather'][0]['description'].title()
-                weather_main = weather_data['weather'][0]['main']
                 city_name = weather_data['name']
                 country = weather_data['sys']['country']
                 sunrise = datetime.fromtimestamp(weather_data['sys']['sunrise']).strftime('%H:%M')
@@ -187,3 +180,5 @@ if st.button("Get Weather"):
                     st.markdown('</div>', unsafe_allow_html=True)
             else:
                 st.error("City not found. Please try another.")
+    else:
+        st.warning("Please enter a location name to get the weather.")
